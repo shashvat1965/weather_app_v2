@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:weather_app_v2/Resources/constants.dart';
 
 import '../Widgets/middle_weather_details.dart';
+import '../Widgets/name_and_search.dart';
 import '../Widgets/weather_card.dart';
 
 class WeatherDisplay extends StatefulWidget {
@@ -30,41 +31,7 @@ class WeatherDisplayState extends State<WeatherDisplay> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                children: [
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: const [
-                          Icon(
-                            CupertinoIcons.location_solid,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text(
-                            "City Name",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: montserrat,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 25),
-                          )
-                        ],
-                      ),
-                      const Icon(
-                        CupertinoIcons.search,
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
-                ],
-              ),
+              const NameAndSearch(cityName: 'City Name',),
               const WeatherDetails(weatherName: "Cloudy", temp: "10", image: thunder, windSpeed: "8 km/h", humidity: "47%"),
               Column(
                 children: [
