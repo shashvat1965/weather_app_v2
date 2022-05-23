@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app_v2/weather_display.dart';
+import 'package:weather_app_v2/Screens/start_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,9 +11,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData().copyWith(scaffoldBackgroundColor: Color(0xFF232535)),
-      home: Scaffold(
-        body: WeatherDisplay(),
+      theme: ThemeData()
+          .copyWith(scaffoldBackgroundColor: const Color(0xFF232535)),
+      home: const Scaffold(
+        body: StartScreen(),
       ),
     );
   }
