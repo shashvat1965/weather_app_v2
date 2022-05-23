@@ -77,14 +77,12 @@ class WeatherDisplayState extends State<WeatherDisplay> {
                           fontSize: 20,
                           fontFamily: montserrat,
                           fontWeight: FontWeight.w700)),
-                  Container(
-                    child: const Text("10°",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 100,
-                            fontFamily: montserrat,
-                            fontWeight: FontWeight.w700)),
-                  ),
+                  const Text("10°",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 100,
+                          fontFamily: montserrat,
+                          fontWeight: FontWeight.w700)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

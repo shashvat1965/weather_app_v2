@@ -20,7 +20,7 @@ class StartScreen extends StatelessWidget {
           isRepeatingAnimation: false,
           onFinished: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return WeatherDisplay();
+              return const WeatherDisplay();
             }));
           },
           animatedTexts: [
