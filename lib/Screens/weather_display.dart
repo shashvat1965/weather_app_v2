@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app_v2/Resources/constants.dart';
 
+import '../Widgets/middle_weather_details.dart';
+import '../Widgets/weather_card.dart';
+
 class WeatherDisplay extends StatefulWidget {
   const WeatherDisplay({Key? key}) : super(key: key);
 
@@ -62,67 +65,7 @@ class WeatherDisplayState extends State<WeatherDisplay> {
                   ),
                 ],
               ),
-              Column(
-                children: [
-                  const Image(
-                    image: AssetImage(thunder),
-                    height: 150,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Text("Cloudy",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontFamily: montserrat,
-                          fontWeight: FontWeight.w700)),
-                  const Text("10°",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 100,
-                          fontFamily: montserrat,
-                          fontWeight: FontWeight.w700)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        children: const [
-                          Icon(
-                            CupertinoIcons.wind,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                          Text(" 8 km/h",
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                  fontFamily: montserrat,
-                                  fontWeight: FontWeight.w500))
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 25,
-                      ),
-                      Row(
-                        children: const [
-                          Icon(
-                            CupertinoIcons.drop_fill,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                          Text("47%",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontFamily: montserrat,
-                                  fontWeight: FontWeight.w500))
-                        ],
-                      )
-                    ],
-                  )
-                ],
-              ),
+              const WeatherDetails(weatherName: "Cloudy", temp: "10", image: thunder, windSpeed: "8 km/h", humidity: "47%"),
               Column(
                 children: [
                   Row(
@@ -181,9 +124,9 @@ class WeatherDisplayState extends State<WeatherDisplay> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: const [
-                      WeatherCard(),
-                      WeatherCard(),
-                      WeatherCard()
+                      WeatherCard(temp: "10", icon: CupertinoIcons.cloud_sun, time: '10:00',),
+                      WeatherCard(temp: "10", icon: CupertinoIcons.cloud_sun, time: '10:00',),
+                      WeatherCard(temp: "10", icon: CupertinoIcons.cloud_sun, time: '10:00',)
                     ],
                   ),
                   const SizedBox(
@@ -199,50 +142,6 @@ class WeatherDisplayState extends State<WeatherDisplay> {
   }
 }
 
-class WeatherCard extends StatelessWidget {
-  const WeatherCard({
-    Key? key,
-  }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      elevation: 5,
-      color: const Color(0xFF2e3341),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text("10:00 AM",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontFamily: montserrat,
-                      fontWeight: FontWeight.w500)),
-              SizedBox(
-                height: 5,
-              ),
-              Icon(
-                color: Colors.white,
-                CupertinoIcons.cloud_sun,
-                size: 40,
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Text("10°",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      fontFamily: montserrat,
-                      fontWeight: FontWeight.w700))
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+
+
