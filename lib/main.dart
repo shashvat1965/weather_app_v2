@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.dark(),
+      theme: ThemeData().copyWith(scaffoldBackgroundColor: Color(0xFF232535)),
       home: Scaffold(
         body: WeatherDisplay(),
       ),
