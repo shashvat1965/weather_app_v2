@@ -73,7 +73,7 @@ class WeatherDisplayState extends State<WeatherDisplay> {
                             weatherName: "Cloudy",
                             temp: "${weatherData.temp}°",
                             image: thunder,
-                            windSpeed: "${weatherData.windSpeed} km/h",
+                            windSpeed: "${weatherData.windSpeed}km/h",
                             humidity: "${weatherData.humidity}%"),
                         Column(
                           children: [

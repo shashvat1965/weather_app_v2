@@ -6,7 +6,6 @@ class LocationViewModel {
 
   getCurrentLocation() async {
     Position position = await geolocator().determinePosition();
-
     Location location =
         Location(lat: position.latitude, lon: position.longitude);
     return location;

@@ -4,7 +4,7 @@ import 'package:weather_app_v2/Repo/Model/weather_data.dart';
 import 'package:weather_app_v2/Resources/constants.dart';
 part 'retrofit.g.dart';
 
-@RestApi(baseUrl: baseUrlWeather)
+@RestApi(baseUrl: baseUrl)
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}) = _RestClient;
 
@@ -12,4 +12,3 @@ abstract class RestClient {
   Future<WeatherData> getWeather(
       @Query("&lat") String lat, @Query("&lon") String lon);
 }
-
