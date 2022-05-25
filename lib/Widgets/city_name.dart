@@ -7,7 +7,7 @@ import '../Resources/constants.dart';
 class NameAndSearch extends StatelessWidget {
   const NameAndSearch({Key? key, required this.cityName}) : super(key: key);
 
-  final String cityName;
+  final String? cityName;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class NameAndSearch extends StatelessWidget {
                   width: 20,
                 ),
                 Text(
-                  cityName,
+                  cityName!,
                   style: const TextStyle(
                       color: Colors.white,
                       fontFamily: montserrat,

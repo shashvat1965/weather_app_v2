@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'retrofit.dart';
+part of 'location_retrofit.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -10,7 +10,7 @@ part of 'retrofit.dart';
 
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'https://api.openweathermap.org/data/2.5';
+    baseUrl ??= 'http://api.openweathermap.org/geo/1.0';
   }
 
   final Dio _dio;
@@ -18,19 +18,19 @@ class _RestClient implements RestClient {
   String? baseUrl;
 
   @override
-  Future<WeatherData> getWeather(lat, lon) async {
+  Future<Location> getCoordinates(cityName) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'&lat': lat, r'&lon': lon};
+    final queryParameters = <String, dynamic>{r'&q': cityName};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<WeatherData>(
+        _setStreamType<Location>(
             Options(method: 'GET', headers: _headers, extra: _extra)
                 .compose(_dio.options,
-                    '/onecall?&appid=f96dba3b75e7751664320b04d829142b',
+                    '/direct?limit=1&appid=f96dba3b75e7751664320b04d829142b}',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = WeatherData.fromJson(_result.data!);
+    final value = Location.fromJson(_result.data!);
     return value;
   }
 

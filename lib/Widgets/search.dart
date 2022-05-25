@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:weather_app_v2/Views/weather_display.dart';
 
 import '../Resources/constants.dart';
 
 class Search extends StatelessWidget {
-  Function onPressed;
-  Search({Key? key, required this.onPressed}) : super(key: key);
+  TextEditingController textEditingController = TextEditingController();
+  Search({Key? key,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,7 @@ class Search extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             TextField(
+                              controller: textEditingController,
                               style: const TextStyle(
                                   color: Colors.white, fontFamily: montserrat),
                               decoration: InputDecoration(
@@ -53,7 +55,9 @@ class Search extends StatelessWidget {
                             ),
                             TextButton(
                                 onPressed: (){
-                                  onPressed;
+                                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                                    return WeatherDisplay(fromSearchScreen: true, cityName: textEditingController.text,);
+                                  }));
                                 },
                                 child: const Text(
                                   "Search",
