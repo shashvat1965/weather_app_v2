@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:weather_app_v2/Widgets/search.dart';
+import 'package:weather_app_v2/Views/search.dart';
 
 import '../Resources/constants.dart';
 
-class NameAndSearch extends StatelessWidget {
-  const NameAndSearch({Key? key, required this.cityName}) : super(key: key);
+class CityName extends StatelessWidget {
+  const CityName({Key? key, required this.cityName}) : super(key: key);
 
   final String? cityName;
 

@@ -7,10 +7,10 @@ part of 'weather_data.dart';
 // **************************************************************************
 
 WeatherData _$WeatherDataFromJson(Map<String, dynamic> json) => WeatherData(
-      temp: json['temp'] as String,
-      humidity: json['humidity'] as String,
-      windSpeed: json['windSpeed'] as String,
-    );
+  temp: (json['current']['temp'].toInt()-273).toString() ,
+  humidity: json['current']['humidity'].toString(),
+  windSpeed: json['current']['wind_speed'].toString(),
+);
 
 Map<String, dynamic> _$WeatherDataToJson(WeatherData instance) =>
     <String, dynamic>{

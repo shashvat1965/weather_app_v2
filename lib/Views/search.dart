@@ -6,7 +6,7 @@ import '../Resources/constants.dart';
 
 class Search extends StatelessWidget {
   TextEditingController textEditingController = TextEditingController();
-  Search({Key? key,}) : super(key: key);
+  Search({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class Search extends StatelessWidget {
                             TextButton(
                                 onPressed: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                                    return WeatherDisplay(fromSearchScreen: true, cityName: textEditingController.text,);
+                                    return WeatherDisplay(fromSearchScreen: true);
                                   }));
                                 },
                                 child: const Text(

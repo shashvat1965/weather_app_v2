@@ -3,18 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:weather_app_v2/Repo/Model/location.dart';
 import 'package:weather_app_v2/Repo/Model/weather_data.dart';
 import 'package:weather_app_v2/Resources/constants.dart';
-import 'package:weather_app_v2/View%20Models/city_name_viewmodel.dart';
 import 'package:weather_app_v2/View%20Models/location_viewmodel.dart';
 import 'package:weather_app_v2/View%20Models/weather_viewmodel.dart';
-import 'package:weather_app_v2/Widgets/search.dart';
-import '../Widgets/middle_weather_details.dart';
 import '../Widgets/city_name.dart';
+import '../Widgets/middle_weather_details.dart';
+import 'search.dart';
 import '../Widgets/weather_card.dart';
 
 class WeatherDisplay extends StatefulWidget {
-  final bool fromSearchScreen;
+  bool fromSearchScreen;
   String? cityName;
-  WeatherDisplay({Key? key, required this.fromSearchScreen, this.cityName}) : super(key: key);
+  WeatherDisplay({Key? key, required this.fromSearchScreen}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -29,29 +28,18 @@ class WeatherDisplayState extends State<WeatherDisplay> {
   late WeatherData weatherData;
   late Location location;
 
-  @override
-  void initState() {
-    if (!widget.fromSearchScreen) {
-      loadingEverythingFromStartScreen();
-    }
-    // if(widget.fromSearchScreen){
-    //   print("ok");
-    // }
-    super.initState();
-  }
-
   Future<WeatherData> loadingEverythingFromStartScreen() async {
     location = await LocationViewModel().getCurrentLocation();
-    widget.cityName = await CityNameViewModel().getCityNameFromLatLon(location);
-    weatherData = await WeatherViewModel(location: location).getWeatherData();
+    widget.cityName = await LocationViewModel().getCityName(location);
+    weatherData = await WeatherViewModel().getWeatherData(location);
     return weatherData;
   }
 
-  // Future<WeatherData> loadingEverythingFromSearchScreen() async {
-  //   location = await LocationViewModel().getLatLonFromCityName(widget.cityName);
-  //   weatherData = await WeatherViewModel(location: location).getWeatherData();
-  //   return weatherData;
-  // }
+  Future<WeatherData> loadingEverythingFromSearchScreen() async {
+    location = await LocationViewModel().getLatLonFromCityName(widget.cityName);
+    weatherData = await WeatherViewModel().getWeatherData(location);
+    return weatherData;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +48,7 @@ class WeatherDisplayState extends State<WeatherDisplay> {
           .copyWith(scaffoldBackgroundColor: const Color(0xFF232535)),
       home: Scaffold(
           body: FutureBuilder(
-              future: loadingEverythingFromStartScreen(),
+              future: widget.fromSearchScreen ? loadingEverythingFromSearchScreen() : loadingEverythingFromStartScreen(),
               builder:
                   (BuildContext context, AsyncSnapshot<WeatherData> snapshot) {
                 if (snapshot.hasError) {
@@ -68,9 +56,11 @@ class WeatherDisplayState extends State<WeatherDisplay> {
                     child: SizedBox(
                       height: 100,
                       width: 100,
-                      child: Text(
-                        "Error",
-                        style: TextStyle(color: Colors.white),
+                      child: Center(
+                        child: Text(
+                          "Error",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
                   );
@@ -85,7 +75,7 @@ class WeatherDisplayState extends State<WeatherDisplay> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            NameAndSearch(cityName: widget.cityName),
+                            CityName(cityName: widget.cityName),
                             Search()
                           ],
                         ),
