@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:weather_app_v2/Widgets/search.dart';
 
 import '../Resources/constants.dart';
 
@@ -34,16 +35,14 @@ class NameAndSearch extends StatelessWidget {
                       fontFamily: montserrat,
                       fontWeight: FontWeight.w700,
                       fontSize: 25),
-                )
+                ),
               ],
             ),
-            const Icon(
-              CupertinoIcons.search,
-              color: Colors.white,
-            )
           ],
         ),
       ],
     );
   }
 }
+
+

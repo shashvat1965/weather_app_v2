@@ -1,16 +1,21 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app_v2/Repo/Model/location.dart';
 import 'package:weather_app_v2/Repo/Model/weather_data.dart';
 import 'package:weather_app_v2/Resources/constants.dart';
+import 'package:weather_app_v2/View%20Models/city_name_viewmodel.dart';
 import 'package:weather_app_v2/View%20Models/location_viewmodel.dart';
 import 'package:weather_app_v2/View%20Models/weather_viewmodel.dart';
+import 'package:weather_app_v2/Widgets/search.dart';
 import '../Widgets/middle_weather_details.dart';
-import '../Widgets/name_and_search.dart';
+import '../Widgets/city_name.dart';
 import '../Widgets/weather_card.dart';
 
 class WeatherDisplay extends StatefulWidget {
-  const WeatherDisplay({Key? key}) : super(key: key);
+  bool fromSearchScreen;
+  WeatherDisplay({Key? key, required this.fromSearchScreen}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -23,16 +28,20 @@ enum Day { yesterday, today, tommorow }
 class WeatherDisplayState extends State<WeatherDisplay> {
   Day selectedDay = Day.today;
   late WeatherData weatherData;
+  late String cityName;
   late Location location;
 
   @override
   void initState() {
-    loadingEverything();
+    if(!widget.fromSearchScreen){
+      loadingEverythingFromSearchScreen();
+    }
     super.initState();
   }
 
-  Future<WeatherData> loadingEverything() async {
+  Future<WeatherData> loadingEverythingFromSearchScreen() async {
     location = await LocationViewModel().getCurrentLocation();
+    cityName = CityNameViewModel().getCityNameFromLatLon(location);
     weatherData = await WeatherViewModel(location: location).getWeatherData();
     return weatherData;
   }
@@ -44,7 +53,7 @@ class WeatherDisplayState extends State<WeatherDisplay> {
           .copyWith(scaffoldBackgroundColor: const Color(0xFF232535)),
       home: Scaffold(
           body: FutureBuilder(
-              future: loadingEverything(),
+              future: loadingEverythingFromSearchScreen(),
               builder:
                   (BuildContext context, AsyncSnapshot<WeatherData> snapshot) {
                 if (snapshot.hasError) {
@@ -66,8 +75,14 @@ class WeatherDisplayState extends State<WeatherDisplay> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const NameAndSearch(
-                          cityName: 'City Name',
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            NameAndSearch(
+                              cityName: cityName,
+                            ),
+                            Search(onPressed: (){},)
+                          ],
                         ),
                         WeatherDetails(
                             weatherName: "Cloudy",
