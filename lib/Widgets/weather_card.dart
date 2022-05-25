@@ -6,11 +6,13 @@ class WeatherCard extends StatelessWidget {
   const WeatherCard({
     Key? key,
     required this.time,
+    required this.date,
     required this.icon,
     required this.temp,
   }) : super(key: key);
 
   final String time;
+  final String date;
   final String temp;
   final IconData icon;
 
@@ -27,7 +29,16 @@ class WeatherCard extends StatelessWidget {
             width: 80,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Text(
+                  date,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontFamily: montserrat,
+                      fontWeight: FontWeight.w500),
+                ),
                 Text(time,
                     style: const TextStyle(
                         color: Colors.white,

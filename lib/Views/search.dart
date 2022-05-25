@@ -56,7 +56,7 @@ class Search extends StatelessWidget {
                             TextButton(
                                 onPressed: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                                    return WeatherDisplay(fromSearchScreen: true);
+                                    return WeatherDisplay(fromSearchScreen: true, cityName: textEditingController.text,);
                                   }));
                                 },
                                 child: const Text(

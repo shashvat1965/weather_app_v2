@@ -19,10 +19,10 @@ class LocationViewModel {
   }
 
   getLatLonFromCityName(String? cityName) async {
-    Location2 location;
     final dio = Dio();
     final client = RestClient(dio);
-    location= await client.getCoordinates(cityName!);
+    Location2 location = await client.getCoordinates(cityName!);
+    return location;
   }
 
     getCityName(Location location) async {
