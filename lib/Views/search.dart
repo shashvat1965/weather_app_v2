@@ -1,12 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:weather_app_v2/View%20Models/location_viewmodel.dart';
 import 'package:weather_app_v2/Views/weather_display.dart';
-
+import 'package:dio/dio.dart';
+import '../Repo/Model/site.dart';
 import '../Resources/constants.dart';
 
 class Search extends StatelessWidget {
   TextEditingController textEditingController = TextEditingController();
   Search({Key? key}) : super(key: key);
+
+  checkForError(String s) async {
+    try {
+      Site site = await LocationViewModel().getLatLonFromCityName(s);
+      return false;
+    } on DioError {
+      return true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +65,138 @@ class Search extends StatelessWidget {
                                   )),
                             ),
                             TextButton(
-                                onPressed: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context){
-                                    return WeatherDisplay(fromSearchScreen: true, cityName: textEditingController.text.toString(),);
-                                  }));
+                                onPressed: () async {
+                                  if (textEditingController.text.isNotEmpty) {
+                                    bool error = await checkForError(
+                                        textEditingController.text);
+                                    if (error) {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return Dialog(
+                                              elevation: 10,
+                                              backgroundColor:
+                                                  const Color(0xFF232535),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                ),
+                                                height: 100,
+                                                width: 150,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Column(
+                                                        children: const [
+                                                          SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Text(
+                                                            "Location Error",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontFamily:
+                                                                    montserrat),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: const Text(
+                                                          "OK",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontFamily:
+                                                                  montserrat),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          });
+                                    }
+                                    if (!error) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  WeatherDisplay(
+                                                    cityName:
+                                                        textEditingController
+                                                            .text,
+                                                    fromSearchScreen: true,
+                                                  )));
+                                    }
+                                  } else {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return Dialog(
+                                            elevation: 10,
+                                            backgroundColor:
+                                                const Color(0xFF232535),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                              height: 100,
+                                              width: 150,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Column(
+                                                      children: const [
+                                                        SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        Text(
+                                                          "Please enter a location",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontFamily:
+                                                                  montserrat),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text(
+                                                        "OK",
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontFamily:
+                                                                montserrat),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        });
+                                  }
                                 },
                                 child: const Text(
                                   "Search",

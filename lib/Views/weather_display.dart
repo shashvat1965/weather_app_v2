@@ -1,7 +1,7 @@
-import 'dart:html';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:dio/dio.dart';
 import 'package:weather_app_v2/Repo/Model/site.dart';
 import 'package:weather_app_v2/Repo/Model/weather_data.dart';
 import 'package:weather_app_v2/Resources/constants.dart';
@@ -36,17 +36,18 @@ class WeatherDisplayState extends State<WeatherDisplay> {
     return weatherData;
   }
 
-  getTimeInCorrectFormat(String x){
+  getTimeInCorrectFormat(String x) {
     int k = int.parse(x);
-    k=k*1000;
+    k = k * 1000;
     var y = DateTime.fromMillisecondsSinceEpoch(k);
     y = y.add(const Duration(hours: 5, minutes: 30));
     var temp = Jiffy(y).format('hh:mm');
     return temp;
   }
-  getDateInCorrectFormat(String x){
+
+  getDateInCorrectFormat(String x) {
     int k = int.parse(x);
-    k=k*1000;
+    k = k * 1000;
     var y = DateTime.fromMillisecondsSinceEpoch(k);
     var z = y.add(const Duration(hours: 5, minutes: 30));
     var date = Jiffy(z).format('dd/MM');
@@ -54,19 +55,14 @@ class WeatherDisplayState extends State<WeatherDisplay> {
   }
 
   Future<WeatherData> loadingEverythingFromSearchScreen() async {
-    print(widget.cityName);
-    site = await LocationViewModel().getLatLonFromCityName(widget.cityName);
-    print("test 2");
-    weatherData = await WeatherViewModel().getWeatherData(site);
-    print("test 3");
-    return weatherData;
-  }
-
-  @override
-  initState() {
-    if (widget.fromSearchScreen) {
-      //loadingEverythingFromSearchScreen();
+    try {
+      site = await LocationViewModel().getLatLonFromCityName(widget.cityName);
+    } on DioError {
+      site = await LocationViewModel().getCurrentLocation();
+      widget.cityName = await LocationViewModel().getCityName(site);
     }
+    weatherData = await WeatherViewModel().getWeatherData(site);
+    return weatherData;
   }
 
   @override
@@ -82,7 +78,6 @@ class WeatherDisplayState extends State<WeatherDisplay> {
               builder:
                   (BuildContext context, AsyncSnapshot<WeatherData> snapshot) {
                 if (snapshot.hasError) {
-                  print(snapshot.error);
                   return const Center(
                     child: SizedBox(
                       height: 100,
@@ -113,7 +108,7 @@ class WeatherDisplayState extends State<WeatherDisplay> {
                         WeatherDetails(
                             weatherName: "Cloudy",
                             temp: "${weatherData.temp}°",
-                            image: thunder,
+                            image: Images.thunder,
                             windSpeed: "${weatherData.windSpeed}km/h",
                             humidity: "${weatherData.humidity}%"),
                         Column(
@@ -125,22 +120,28 @@ class WeatherDisplayState extends State<WeatherDisplay> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 WeatherCard(
-                                  date: getDateInCorrectFormat(weatherData.hour1),
+                                  date:
+                                      getDateInCorrectFormat(weatherData.hour1),
                                   temp: weatherData.temp_hour1,
                                   icon: CupertinoIcons.cloud_sun,
-                                  time: getTimeInCorrectFormat(weatherData.hour1),
+                                  time:
+                                      getTimeInCorrectFormat(weatherData.hour1),
                                 ),
                                 WeatherCard(
-                                  date: getDateInCorrectFormat(weatherData.hour2),
+                                  date:
+                                      getDateInCorrectFormat(weatherData.hour2),
                                   temp: weatherData.temp_hour2,
                                   icon: CupertinoIcons.cloud_sun,
-                                  time: getTimeInCorrectFormat(weatherData.hour2),
+                                  time:
+                                      getTimeInCorrectFormat(weatherData.hour2),
                                 ),
                                 WeatherCard(
-                                  date: getDateInCorrectFormat(weatherData.hour3),
+                                  date:
+                                      getDateInCorrectFormat(weatherData.hour3),
                                   temp: weatherData.temp_hour3,
                                   icon: CupertinoIcons.cloud_sun,
-                                  time: getTimeInCorrectFormat(weatherData.hour3),
+                                  time:
+                                      getTimeInCorrectFormat(weatherData.hour3),
                                 )
                               ],
                             ),

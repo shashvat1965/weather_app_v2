@@ -27,8 +27,8 @@ class _RestClient implements RestClient {
         _setStreamType<WeatherData>(
             Options(method: 'GET', headers: _headers, extra: _extra)
                 .compose(_dio.options,
-                '/onecall?&appid=f96dba3b75e7751664320b04d829142b',
-                queryParameters: queryParameters, data: _data)
+                    '/onecall?&appid=f96dba3b75e7751664320b04d829142b',
+                    queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = WeatherData.fromJson(_result.data!);
     return value;

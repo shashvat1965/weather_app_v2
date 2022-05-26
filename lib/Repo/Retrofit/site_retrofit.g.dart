@@ -23,13 +23,12 @@ class _RestClient implements RestClient {
     final queryParameters = <String, dynamic>{r'q': cityName};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<Site>(
-            Options(method: 'GET', headers: _headers, extra: _extra)
-                .compose(_dio.options,
+    final _result = await _dio.fetch<Map<String, dynamic>>(_setStreamType<Site>(
+        Options(method: 'GET', headers: _headers, extra: _extra)
+            .compose(_dio.options,
                 '/weather?&appid=f96dba3b75e7751664320b04d829142b',
                 queryParameters: queryParameters, data: _data)
-                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = Site.fromJson(_result.data!);
     return value;
   }

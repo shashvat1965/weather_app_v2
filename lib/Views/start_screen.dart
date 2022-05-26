@@ -20,7 +20,9 @@ class StartScreen extends StatelessWidget {
           isRepeatingAnimation: false,
           onFinished: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return WeatherDisplay(fromSearchScreen: false,);
+              return WeatherDisplay(
+                fromSearchScreen: false,
+              );
             }));
           },
           animatedTexts: [

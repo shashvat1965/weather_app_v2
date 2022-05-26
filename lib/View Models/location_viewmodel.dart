@@ -10,8 +10,7 @@ import 'package:dio/dio.dart';
 class LocationViewModel {
   getCurrentLocation() async {
     Position position = await geolocator().determinePosition();
-    Site site =
-        Site(lat: position.latitude, lon: position.longitude);
+    Site site = Site(lat: position.latitude, lon: position.longitude);
     return site;
   }
 
@@ -30,5 +29,4 @@ class LocationViewModel {
     Site site = await client.getCityName(cityName!);
     return site;
   }
-
 }

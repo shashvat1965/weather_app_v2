@@ -10,5 +10,4 @@ abstract class RestClient {
 
   @GET('/weather?appid=$apiKey')
   Future<Site> getCityName(@Query('&q') String cityName);
-
 }

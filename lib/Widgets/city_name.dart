@@ -44,5 +44,3 @@ class CityName extends StatelessWidget {
     );
   }
 }
-
-

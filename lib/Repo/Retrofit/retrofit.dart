@@ -12,4 +12,3 @@ abstract class RestClient {
   Future<WeatherData> getWeather(
       @Query("&lat") String lat, @Query("&lon") String lon);
 }
-
