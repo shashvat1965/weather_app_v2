@@ -7,6 +7,7 @@ import 'package:weather_app_v2/Repo/Model/weather_data.dart';
 import 'package:weather_app_v2/Resources/constants.dart';
 import 'package:weather_app_v2/View%20Models/location_viewmodel.dart';
 import 'package:weather_app_v2/View%20Models/weather_viewmodel.dart';
+import 'package:weather_app_v2/util_functions.dart';
 import '../Repo/Model/site.dart';
 import '../Widgets/city_name.dart';
 import '../Widgets/middle_weather_details.dart';
@@ -28,30 +29,14 @@ class WeatherDisplay extends StatefulWidget {
 class WeatherDisplayState extends State<WeatherDisplay> {
   late WeatherData weatherData;
   late Site site;
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
 
   Future<WeatherData> loadingEverythingFromStartScreen() async {
     site = await LocationViewModel().getCurrentLocation();
     widget.cityName = await LocationViewModel().getCityName(site);
     weatherData = await WeatherViewModel().getWeatherData(site);
     return weatherData;
-  }
-
-  getTimeInCorrectFormat(String x) {
-    int k = int.parse(x);
-    k = k * 1000;
-    var y = DateTime.fromMillisecondsSinceEpoch(k);
-    y = y.add(const Duration(hours: 5, minutes: 30));
-    var temp = Jiffy(y).format('hh:mm');
-    return temp;
-  }
-
-  getDateInCorrectFormat(String x) {
-    int k = int.parse(x);
-    k = k * 1000;
-    var y = DateTime.fromMillisecondsSinceEpoch(k);
-    var z = y.add(const Duration(hours: 5, minutes: 30));
-    var date = Jiffy(z).format('dd/MM');
-    return date;
   }
 
   Future<WeatherData> loadingEverythingFromSearchScreen() async {
@@ -101,14 +86,17 @@ class WeatherDisplayState extends State<WeatherDisplay> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            CityName(cityName: widget.cityName),
+                            CityName(
+                              cityName: widget.cityName?.toTitleCase(),
+                            ),
                             Search()
                           ],
                         ),
                         WeatherDetails(
                             weatherName: weatherData.condition,
                             temp: "${weatherData.temp}°",
-                            imageUrl: "http://openweathermap.org/img/wn/${weatherData.icon}@2x.png",
+                            imageUrl:
+                                "http://openweathermap.org/img/wn/${weatherData.icon}@2x.png",
                             windSpeed: "${weatherData.windSpeed}km/h",
                             humidity: "${weatherData.humidity}%"),
                         Column(
@@ -120,28 +108,28 @@ class WeatherDisplayState extends State<WeatherDisplay> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 WeatherCard(
-                                  date:
-                                      getDateInCorrectFormat(weatherData.hour1),
+                                  date: UtilFunction.getDateInCorrectFormat(
+                                      weatherData.hour1),
                                   temp: weatherData.temp_hour1,
                                   icon: CupertinoIcons.cloud_sun,
-                                  time:
-                                      getTimeInCorrectFormat(weatherData.hour1),
+                                  time: UtilFunction.getTimeInCorrectFormat(
+                                      weatherData.hour1),
                                 ),
                                 WeatherCard(
-                                  date:
-                                      getDateInCorrectFormat(weatherData.hour2),
+                                  date: UtilFunction.getDateInCorrectFormat(
+                                      weatherData.hour2),
                                   temp: weatherData.temp_hour2,
                                   icon: CupertinoIcons.cloud_sun,
-                                  time:
-                                      getTimeInCorrectFormat(weatherData.hour2),
+                                  time: UtilFunction.getTimeInCorrectFormat(
+                                      weatherData.hour2),
                                 ),
                                 WeatherCard(
-                                  date:
-                                      getDateInCorrectFormat(weatherData.hour3),
+                                  date: UtilFunction.getDateInCorrectFormat(
+                                      weatherData.hour3),
                                   temp: weatherData.temp_hour3,
                                   icon: CupertinoIcons.cloud_sun,
-                                  time:
-                                      getTimeInCorrectFormat(weatherData.hour3),
+                                  time: UtilFunction.getTimeInCorrectFormat(
+                                      weatherData.hour3),
                                 )
                               ],
                             ),
