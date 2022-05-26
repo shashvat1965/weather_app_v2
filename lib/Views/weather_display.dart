@@ -29,8 +29,6 @@ class WeatherDisplay extends StatefulWidget {
 class WeatherDisplayState extends State<WeatherDisplay> {
   late WeatherData weatherData;
   late Site site;
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      GlobalKey<RefreshIndicatorState>();
 
   Future<WeatherData> loadingEverythingFromStartScreen() async {
     site = await LocationViewModel().getCurrentLocation();
@@ -40,12 +38,7 @@ class WeatherDisplayState extends State<WeatherDisplay> {
   }
 
   Future<WeatherData> loadingEverythingFromSearchScreen() async {
-    try {
-      site = await LocationViewModel().getLatLonFromCityName(widget.cityName);
-    } on DioError {
-      site = await LocationViewModel().getCurrentLocation();
-      widget.cityName = await LocationViewModel().getCityName(site);
-    }
+    site = await LocationViewModel().getLatLonFromCityName(widget.cityName);
     weatherData = await WeatherViewModel().getWeatherData(site);
     return weatherData;
   }
