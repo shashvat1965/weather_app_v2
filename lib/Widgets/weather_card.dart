@@ -55,7 +55,7 @@ class WeatherCard extends StatelessWidget {
                 const SizedBox(
                   height: 5,
                 ),
-                Text(temp,
+                Text('$temp°',
                     style: const TextStyle(
                         color: Colors.white,
                         fontSize: 30,
