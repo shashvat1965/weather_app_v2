@@ -106,9 +106,9 @@ class WeatherDisplayState extends State<WeatherDisplay> {
                           ],
                         ),
                         WeatherDetails(
-                            weatherName: "Cloudy",
+                            weatherName: weatherData.condition,
                             temp: "${weatherData.temp}°",
-                            image: Images.thunder,
+                            imageUrl: "http://openweathermap.org/img/wn/${weatherData.icon}@2x.png",
                             windSpeed: "${weatherData.windSpeed}km/h",
                             humidity: "${weatherData.humidity}%"),
                         Column(

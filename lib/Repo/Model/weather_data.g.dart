@@ -16,6 +16,8 @@ WeatherData _$WeatherDataFromJson(Map<String, dynamic> json) => WeatherData(
       temp_hour1: (json['hourly'][1]['temp'].toInt() - 273).toString(),
       temp_hour2: (json['hourly'][2]['temp'].toInt() - 273).toString(),
       temp_hour3: (json['hourly'][3]['temp'].toInt() - 273).toString(),
+      condition: json['current']['weather'][0]['main'].toString(),
+      icon: json['current']['weather'][0]['icon'].toString(),
     );
 
 Map<String, dynamic> _$WeatherDataToJson(WeatherData instance) =>
@@ -29,4 +31,6 @@ Map<String, dynamic> _$WeatherDataToJson(WeatherData instance) =>
       'temp_hour1': instance.temp_hour1,
       'temp_hour2': instance.temp_hour2,
       'temp_hour3': instance.temp_hour3,
+      'condition': instance.condition,
+      'icon': instance.icon,
     };

@@ -12,6 +12,8 @@ class WeatherData {
   String temp_hour1;
   String temp_hour2;
   String temp_hour3;
+  String condition;
+  String icon;
 
   WeatherData(
       {required this.temp,
@@ -22,7 +24,9 @@ class WeatherData {
       required this.hour3,
       required this.temp_hour1,
       required this.temp_hour2,
-      required this.temp_hour3});
+      required this.temp_hour3,
+      required this.condition,
+      required this.icon});
   factory WeatherData.fromJson(Map<String, dynamic> json) =>
       _$WeatherDataFromJson(json);
   Map<String, dynamic> toJson() => _$WeatherDataToJson(this);

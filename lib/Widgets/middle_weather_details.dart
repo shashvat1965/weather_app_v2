@@ -8,7 +8,7 @@ class WeatherDetails extends StatelessWidget {
       {Key? key,
       required this.weatherName,
       required this.temp,
-      required this.image,
+      required this.imageUrl,
       required this.windSpeed,
       required this.humidity})
       : super(key: key);
@@ -17,14 +17,15 @@ class WeatherDetails extends StatelessWidget {
   final String temp;
   final String windSpeed;
   final String humidity;
-  final String image;
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Image(
-          image: AssetImage(image),
+          image: NetworkImage(imageUrl),
+          color: Colors.white,
           height: 150,
         ),
         const SizedBox(
