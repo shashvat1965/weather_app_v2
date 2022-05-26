@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jiffy/jiffy.dart';
-import 'package:dio/dio.dart';
 import 'package:weather_app_v2/Repo/Model/site.dart';
 import 'package:weather_app_v2/Repo/Model/weather_data.dart';
-import 'package:weather_app_v2/Resources/constants.dart';
 import 'package:weather_app_v2/View%20Models/location_viewmodel.dart';
 import 'package:weather_app_v2/View%20Models/weather_viewmodel.dart';
 import 'package:weather_app_v2/util_functions.dart';

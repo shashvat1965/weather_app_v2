@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../Resources/constants.dart';
 
 class WeatherDetails extends StatelessWidget {
