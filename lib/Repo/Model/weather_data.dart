@@ -23,10 +23,6 @@ class WeatherData {
       required this.temp_hour1,
       required this.temp_hour2,
       required this.temp_hour3});
-  factory WeatherData.fromJson(Map<String, dynamic> json) {
-    return _$WeatherDataFromJson(json);
-  }
-  Map<String, dynamic> toJson() {
-    return _$WeatherDataToJson(this);
-  }
+  factory WeatherData.fromJson(Map<String, dynamic> json) => _$WeatherDataFromJson(json);
+  Map<String, dynamic> toJson() => _$WeatherDataToJson(this);
 }

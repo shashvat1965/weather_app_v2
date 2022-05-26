@@ -1,14 +1,13 @@
 import 'dart:html';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:weather_app_v2/Repo/Model/location.dart';
+import 'package:weather_app_v2/Repo/Model/site.dart';
 import 'package:weather_app_v2/Repo/Model/weather_data.dart';
 import 'package:weather_app_v2/Resources/constants.dart';
 import 'package:weather_app_v2/View%20Models/location_viewmodel.dart';
 import 'package:weather_app_v2/View%20Models/weather_viewmodel.dart';
-import '../Repo/Model/location2.dart';
+import '../Repo/Model/site.dart';
 import '../Widgets/city_name.dart';
 import '../Widgets/middle_weather_details.dart';
 import 'search.dart';
@@ -28,13 +27,12 @@ class WeatherDisplay extends StatefulWidget {
 
 class WeatherDisplayState extends State<WeatherDisplay> {
   late WeatherData weatherData;
-  late Location location;
-  late Location2 location2;
+  late Site site;
 
   Future<WeatherData> loadingEverythingFromStartScreen() async {
-    location = await LocationViewModel().getCurrentLocation();
-    widget.cityName = await LocationViewModel().getCityName(location);
-    weatherData = await WeatherViewModel().getWeatherData(location);
+    site = await LocationViewModel().getCurrentLocation();
+    widget.cityName = await LocationViewModel().getCityName(site);
+    weatherData = await WeatherViewModel().getWeatherData(site);
     return weatherData;
   }
 
@@ -42,8 +40,8 @@ class WeatherDisplayState extends State<WeatherDisplay> {
     int k = int.parse(x);
     k=k*1000;
     var y = DateTime.fromMillisecondsSinceEpoch(k);
-    var z = y.add(const Duration(hours: 5, minutes: 30));
-    var temp = Jiffy(z).format('hh:mm');
+    y = y.add(const Duration(hours: 5, minutes: 30));
+    var temp = Jiffy(y).format('hh:mm');
     return temp;
   }
   getDateInCorrectFormat(String x){
@@ -57,10 +55,9 @@ class WeatherDisplayState extends State<WeatherDisplay> {
 
   Future<WeatherData> loadingEverythingFromSearchScreen() async {
     print(widget.cityName);
-    location2 =
-        await LocationViewModel().getLatLonFromCityName(widget.cityName);
+    site = await LocationViewModel().getLatLonFromCityName(widget.cityName);
     print("test 2");
-    weatherData = await WeatherViewModel().getWeatherData(location);
+    weatherData = await WeatherViewModel().getWeatherData(site);
     print("test 3");
     return weatherData;
   }
@@ -68,7 +65,7 @@ class WeatherDisplayState extends State<WeatherDisplay> {
   @override
   initState() {
     if (widget.fromSearchScreen) {
-      loadingEverythingFromSearchScreen();
+      //loadingEverythingFromSearchScreen();
     }
   }
 
@@ -80,7 +77,7 @@ class WeatherDisplayState extends State<WeatherDisplay> {
       home: Scaffold(
           body: FutureBuilder(
               future: widget.fromSearchScreen
-                  ? null
+                  ? loadingEverythingFromSearchScreen()
                   : loadingEverythingFromStartScreen(),
               builder:
                   (BuildContext context, AsyncSnapshot<WeatherData> snapshot) {
