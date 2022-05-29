@@ -1,11 +1,10 @@
-import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
+import 'package:weather_app_v2/Repo/Model/city_name.dart';
 import 'package:weather_app_v2/Repo/Model/geolocator.dart';
 import 'package:weather_app_v2/Repo/Model/site.dart';
-import 'package:http/http.dart' as http;
-import '../Repo/Retrofit/site_retrofit.dart';
-import '../Resources/constants.dart';
+import '../Repo/Retrofit/site_retrofit.dart' as site_retrofit;
 import 'package:dio/dio.dart';
+import '../Repo/Retrofit/city_name_retrofit.dart';
 
 class LocationViewModel {
   getCurrentLocation() async {
@@ -15,18 +14,18 @@ class LocationViewModel {
   }
 
   getCityName(Site site) async {
-    Uri uri = Uri.parse(
-        "http://api.openweathermap.org/geo/1.0/reverse?lat=${site.lat.toString()}&lon=${site.lon.toString()}&limit=1&appid=$apiKey");
-    http.Response response = await http.get(uri);
-    String data = response.body;
-    var x = jsonDecode(data);
-    return x[0]['name'];
+    final dio = Dio();
+    final client = RestClient(dio);
+    CityName cityName;
+    cityName =
+        await client.getCityName(site.lat.toString(), site.lon.toString());
+    return cityName.cityName;
   }
 
   getLatLonFromCityName(String? cityName) async {
     final dio = Dio();
-    final client = RestClient(dio);
-    Site site = await client.getCityName(cityName!);
+    final client = site_retrofit.RestClient(dio);
+    Site site = await client.getCoordinates(cityName!);
     return site;
   }
 }

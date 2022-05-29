@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Resources/constants.dart';
 
-class CityName extends StatelessWidget {
-  const CityName({Key? key, required this.cityName}) : super(key: key);
+class CityTag extends StatelessWidget {
+  const CityTag({Key? key, required this.cityName}) : super(key: key);
 
   final String? cityName;
 

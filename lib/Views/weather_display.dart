@@ -76,7 +76,7 @@ class WeatherDisplayState extends State<WeatherDisplay> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            CityName(
+                            CityTag(
                               cityName: widget.cityName?.toTitleCase(),
                             ),
                             Search()

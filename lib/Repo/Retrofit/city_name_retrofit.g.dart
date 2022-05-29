@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'site_retrofit.dart';
+part of 'city_name_retrofit.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -18,18 +18,18 @@ class _RestClient implements RestClient {
   String? baseUrl;
 
   @override
-  Future<Site> getCoordinates(cityName) async {
+  Future<CityName> getCityName(lat, lon) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'q': cityName};
+    final queryParameters = <String, dynamic>{r'lat': lat, r'lon': lon};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<Map<String, dynamic>>(_setStreamType<Site>(
+    final _result = await _dio.fetch<Map<String, dynamic>>(_setStreamType<CityName>(
         Options(method: 'GET', headers: _headers, extra: _extra)
             .compose(_dio.options,
-                '/weather?&appid=f96dba3b75e7751664320b04d829142b',
-                queryParameters: queryParameters, data: _data)
+            '/weather?&appid=f96dba3b75e7751664320b04d829142b',
+            queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = Site.fromJson(_result.data!);
+    final value = CityName.fromJson(_result.data!);
     return value;
   }
 
