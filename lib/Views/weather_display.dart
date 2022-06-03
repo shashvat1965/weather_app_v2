@@ -46,6 +46,7 @@ class WeatherDisplayState extends State<WeatherDisplay> {
       theme: ThemeData()
           .copyWith(scaffoldBackgroundColor: const Color(0xFF232535)),
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
           body: FutureBuilder(
               future: widget.fromSearchScreen
                   ? loadingEverythingFromSearchScreen()
