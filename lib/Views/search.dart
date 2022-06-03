@@ -40,12 +40,12 @@ class Search extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      height: 100,
                       width: 150,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize:MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             TextField(
                               controller: textEditingController,
@@ -63,6 +63,9 @@ class Search extends StatelessWidget {
                                     color: Colors.grey[600],
                                     fontFamily: montserrat,
                                   )),
+                            ),
+                            const SizedBox(
+                              height: 10,
                             ),
                             TextButton(
                                 onPressed: () async {
