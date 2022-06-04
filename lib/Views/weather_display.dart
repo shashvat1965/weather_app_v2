@@ -26,6 +26,8 @@ class WeatherDisplay extends StatefulWidget {
 class WeatherDisplayState extends State<WeatherDisplay> {
   late WeatherData weatherData;
   late Site site;
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+  GlobalKey<RefreshIndicatorState>();
 
   Future<WeatherData> loadingEverythingFromStartScreen() async {
     site = await LocationViewModel().getCurrentLocation();
@@ -46,100 +48,117 @@ class WeatherDisplayState extends State<WeatherDisplay> {
       theme: ThemeData()
           .copyWith(scaffoldBackgroundColor: const Color(0xFF232535)),
       home: Scaffold(
-        resizeToAvoidBottomInset: false,
-          body: FutureBuilder(
-              future: widget.fromSearchScreen
-                  ? loadingEverythingFromSearchScreen()
-                  : loadingEverythingFromStartScreen(),
-              builder:
-                  (BuildContext context, AsyncSnapshot<WeatherData> snapshot) {
-                if (snapshot.hasError) {
-                  return const Center(
-                    child: SizedBox(
-                      height: 100,
-                      width: 100,
-                      child: Center(
-                        child: Text(
-                          "Error",
-                          style: TextStyle(color: Colors.white),
+          resizeToAvoidBottomInset: false,
+          body: RefreshIndicator(
+            key: _refreshIndicatorKey,
+            strokeWidth: 4.0,
+            color: Colors.white,
+            backgroundColor: const Color(0xFF2e3341),
+            onRefresh: () async {
+              print("refreshed");
+              if (widget.fromSearchScreen) {
+                await loadingEverythingFromSearchScreen();
+              } else {
+                await loadingEverythingFromStartScreen();
+              }
+              setState(() {});
+            },
+            child: FutureBuilder(
+                future: widget.fromSearchScreen
+                    ? loadingEverythingFromSearchScreen()
+                    : loadingEverythingFromStartScreen(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<WeatherData> snapshot) {
+                  if (snapshot.hasError) {
+                    return const Center(
+                      child: SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: Center(
+                          child: Text(
+                            "Error",
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                }
-                if (snapshot.hasData) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CityTag(
-                              cityName: widget.cityName?.toTitleCase(),
-                            ),
-                            Search()
-                          ],
-                        ),
-                        WeatherDetails(
-                            weatherName: weatherData.condition,
-                            temp: "${weatherData.temp}°",
-                            imageUrl:
-                                "http://openweathermap.org/img/wn/${weatherData.icon}@2x.png",
-                            windSpeed: "${weatherData.windSpeed}km/h",
-                            humidity: "${weatherData.humidity}%"),
-                        Column(
-                          children: [
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                WeatherCard(
-                                  date: UtilFunction.getDateInCorrectFormat(
-                                      weatherData.hour1),
-                                  temp: weatherData.temp_hour1,
-                                  icon: CupertinoIcons.cloud_sun,
-                                  time: UtilFunction.getTimeInCorrectFormat(
-                                      weatherData.hour1),
-                                ),
-                                WeatherCard(
-                                  date: UtilFunction.getDateInCorrectFormat(
-                                      weatherData.hour2),
-                                  temp: weatherData.temp_hour2,
-                                  icon: CupertinoIcons.cloud_sun,
-                                  time: UtilFunction.getTimeInCorrectFormat(
-                                      weatherData.hour2),
-                                ),
-                                WeatherCard(
-                                  date: UtilFunction.getDateInCorrectFormat(
-                                      weatherData.hour3),
-                                  temp: weatherData.temp_hour3,
-                                  icon: CupertinoIcons.cloud_sun,
-                                  time: UtilFunction.getTimeInCorrectFormat(
-                                      weatherData.hour3),
-                                )
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 30,
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
-                    ),
-                  );
-                }
-              })),
+                    );
+                  }
+                  if (snapshot.hasData) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CityTag(
+                                cityName: widget.cityName?.toTitleCase(),
+                                refreshIndicatorKey: _refreshIndicatorKey,
+                              ),
+                              Search()
+                            ],
+                          ),
+                          WeatherDetails(
+                              weatherName: weatherData.condition,
+                              temp: "${weatherData.temp}°",
+                              imageUrl:
+                                  "http://openweathermap.org/img/wn/${weatherData.icon}@2x.png",
+                              windSpeed: "${weatherData.windSpeed}km/h",
+                              humidity: "${weatherData.humidity}%"),
+                          Column(
+                            children: [
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  WeatherCard(
+                                    date: UtilFunction.getDateInCorrectFormat(
+                                        weatherData.hour1),
+                                    temp: weatherData.temp_hour1,
+                                    icon: CupertinoIcons.cloud_sun,
+                                    time: UtilFunction.getTimeInCorrectFormat(
+                                        weatherData.hour1),
+                                  ),
+                                  WeatherCard(
+                                    date: UtilFunction.getDateInCorrectFormat(
+                                        weatherData.hour2),
+                                    temp: weatherData.temp_hour2,
+                                    icon: CupertinoIcons.cloud_sun,
+                                    time: UtilFunction.getTimeInCorrectFormat(
+                                        weatherData.hour2),
+                                  ),
+                                  WeatherCard(
+                                    date: UtilFunction.getDateInCorrectFormat(
+                                        weatherData.hour3),
+                                    temp: weatherData.temp_hour3,
+                                    icon: CupertinoIcons.cloud_sun,
+                                    time: UtilFunction.getTimeInCorrectFormat(
+                                        weatherData.hour3),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 30,
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    );
+                  }
+                }),
+          )),
     );
   }
 }
