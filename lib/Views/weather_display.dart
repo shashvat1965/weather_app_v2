@@ -55,7 +55,6 @@ class WeatherDisplayState extends State<WeatherDisplay> {
             color: Colors.white,
             backgroundColor: const Color(0xFF2e3341),
             onRefresh: () async {
-              print("refreshed");
               if (widget.fromSearchScreen) {
                 await loadingEverythingFromSearchScreen();
               } else {
