@@ -51,7 +51,7 @@ class WeatherDisplayState extends State<WeatherDisplay> {
           resizeToAvoidBottomInset: false,
           body: RefreshIndicator(
             key: _refreshIndicatorKey,
-            strokeWidth: 4.0,
+            strokeWidth: 2.0,
             color: Colors.white,
             backgroundColor: const Color(0xFF2e3341),
             onRefresh: () async {
